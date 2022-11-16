@@ -6,7 +6,8 @@ import { useFonts } from 'expo-font';
 
 import theme from './src/global/theme';
 
-import { SignIn } from './src/screens/SignIn';
+// import { SignIn } from './src/screens/SignIn';
+import { Dashboard } from './src/screens/Dashboard';
 
 export default function App() {
   const [fontsLoading] = useFonts({
@@ -22,7 +23,8 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar style='light' />
-      <SignIn />
+      {/* <SignIn /> */}
+      <Dashboard />
     </ThemeProvider>
   );
 }
