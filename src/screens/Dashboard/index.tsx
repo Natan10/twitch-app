@@ -1,4 +1,7 @@
 import React from 'react';
+import { FlatList, View } from 'react-native';
+
+import { Card } from '../../components/Card';
 
 import {
   Container,
@@ -8,7 +11,9 @@ import {
   UserName,
   UserBold,
   SignUpButton,
-  Icon
+  Icon,
+  Body,
+  Title
 } from './styles';
 
 export const Dashboard = () => {
@@ -31,6 +36,25 @@ export const Dashboard = () => {
         </SignUpButton>
       </Header>
 
+      <Body>
+          <Title>Canais que você segue</Title>
+          
+          <FlatList
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            data={Array.from(Array(5).keys())}
+            keyExtractor={item => item.toString()}
+            renderItem={({ item }) =>{ 
+              return <Card />
+            }}
+            ItemSeparatorComponent={() =>
+              <View style={{width: 16}} />
+            }
+          />
+
+          {/* <Card /> */}
+          {/* <Title>Mais assistidos no momento</Title> */}
+      </Body>
     </Container>
   )
 }

@@ -28,7 +28,7 @@ export const UserContainer = styled.View`
 export const UserPhoto = styled.Image`
     height: 48px;
     width: 48px;
-    
+
     border-radius: 5px;
     background-color: ${({theme}) => theme.colors.white};
 `;
@@ -52,4 +52,24 @@ export const SignUpButton = styled.TouchableOpacity``;
 
 export const Icon = styled(FontAwesome)`
   color: ${({theme}) => theme.colors.white};
+`;
+
+
+// Body styles
+
+export const Body = styled.View`
+  ${({theme}) => css`
+    padding: 24px 32px;
+
+    flex: 1;
+    background-color: ${theme.colors.black};
+  `}
+`;
+
+export const Title = styled.Text`
+  ${({theme}) => css`
+    font-size: 20px;
+    font-family: ${theme.fonts.bold};
+    color: ${theme.colors.white};
+  `}
 `;
