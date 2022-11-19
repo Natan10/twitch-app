@@ -10,7 +10,6 @@ export const Header = styled.View`
     height: 128px;
 
     padding: 0px 24px;
-    /* padding-top: 32px; */
 
     background-color: ${theme.colors.primary};
 
@@ -25,6 +24,9 @@ export const UserContainer = styled.View`
   align-items: center;
 
   margin-top: 32px;
+  padding-right: 32px;
+
+  flex: 1;
 `;
 
 export const UserPhoto = styled.Image`
@@ -41,6 +43,8 @@ export const UserName = styled.Text`
     font-size: 20px;
     font-family: ${theme.fonts.regular};
     color: ${theme.colors.white};
+
+    flex: 1;
   `}
 `;
 

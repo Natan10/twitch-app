@@ -7,11 +7,13 @@ interface User {
   email: string;
   name: string;
   photo?: string;
+  accessToken: string;
 }
 
 interface AuthContextProps {
   user: User;
   signIn: () => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -51,7 +53,8 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
           id: Number(objUser.id),
           email: objUser.email,
           name: objUser.display_name,
-          photo: objUser.profile_image_url
+          photo: objUser.profile_image_url,
+          accessToken: params.access_token
         });
 
         // TODO - salvar no async storage
@@ -61,9 +64,13 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
       Alert.alert('Erro ao conectar a conta Twitch')
     }
   }
+
+  const signOut = async () => {
+    setUser({} as User);
+  }
   
   return(
-    <AuthContext.Provider value={{user, signIn}}>
+    <AuthContext.Provider value={{user, signIn, signOut}}>
       {children}
     </AuthContext.Provider>
   )

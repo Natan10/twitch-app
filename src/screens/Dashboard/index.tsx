@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useAuth } from '../../hooks/auth';
+
 import { Cards } from '../../components/Cards';
 import { Banners } from '../../components/Banners';
 
@@ -16,22 +18,27 @@ import {
   Title
 } from './styles';
 
+const uri = 'https://doodleipsum.com/700/avatar?i=de119c2260fd4f6406f2450773e96262'
+       
+
 export const Dashboard = () => {
+  const { user, signOut } = useAuth();
+
   return(
     <Container>
       <Header>
         <UserContainer>
           <UserPhoto
             source={{
-              uri: 'https://doodleipsum.com/700/avatar?i=de119c2260fd4f6406f2450773e96262'
+              uri: user.photo ? user.photo : uri
             }} 
           />
-          <UserName>
+          <UserName numberOfLines={2}>
             Ola,
-            <UserBold> Natan</UserBold>
+            <UserBold> {user.name}</UserBold>
           </UserName>
         </UserContainer>
-        <SignUpButton>
+        <SignUpButton onPress={signOut}>
           <Icon name='power-off' size={24} />
         </SignUpButton>
       </Header>
