@@ -5,14 +5,14 @@ import { Banner, BannerProps } from '../Banner';
 
 import { BannersContainer } from './styles';
 
-export interface DataDto {
+export interface BannerDto {
   id: string;
   name: string;
   box_art_url: string;
 }
 
 interface BannersProps {
-  data: DataDto[];
+  data: BannerDto[];
 }
 
 
@@ -20,7 +20,12 @@ export const Banners = ({data}: BannersProps) => {
   return(
     <BannersContainer
       data={data}
-      keyExtractor={(item: DataDto) => item.id}
+      maxToRenderPerBatch={5}
+      initialNumToRender={5}
+      getItemLayout={(_, index) => (
+        {length: 216, offset: 216*index, index}
+      )}
+      keyExtractor={(item: BannerDto) => item.id}
       renderItem={({ item }: any) => {
         return <Banner id={item.id} name={item.name} url={item.box_art_url} />
       }}

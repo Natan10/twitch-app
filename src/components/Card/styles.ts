@@ -36,9 +36,7 @@ export const StreamerContainer = styled.View`
 export const StreamerPhoto = styled.Image`
   width: 40px;
   height: 40px;
-  background-color: gray;
   border-radius: 50%;
-
 `;
 
 export const StreamerInfo = styled.View`

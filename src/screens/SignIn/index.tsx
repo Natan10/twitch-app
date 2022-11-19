@@ -2,6 +2,8 @@ import React from 'react';
 
 import { useAuth } from '../../hooks/auth';
 
+import ImageLogo from '../../assets/logo.svg';
+
 import {
   Container,
   ImageContainer,
@@ -17,7 +19,6 @@ import {
   ButtonText,
 } from './styles';
 
-import ImageLogo from '../../assets/logo.svg';
 
 export const SignIn: React.FC = () => {
   const {signIn} = useAuth();

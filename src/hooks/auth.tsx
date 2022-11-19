@@ -1,6 +1,8 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import * as AuthSession from 'expo-auth-session';
+
+import { api } from '../services/api';
 
 interface User {
   id: number;
@@ -37,28 +39,22 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
     try {
       const clientId = process.env.CLIENT_ID;
       const redirectUrl = process.env.REDIRECT_URL;
-      const authUrl = `https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUrl}&scope=user%3Aread%3Aemail`;
+      const scopes = encodeURI('user:read:email user:read:follows')
+      const authUrl = `https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scopes}`;
       const {type, params} = await AuthSession.startAsync({authUrl}) as AuthorizationResponse;
       
+      setUserToken(params.access_token);
+
       if(type === 'success') {
-        const response = await fetch(`https://api.twitch.tv/helix/users`,{
-          headers: {
-            'Client-ID': clientId,
-            'Authorization': `Bearer ${params.access_token}`
-          }
-        });
-        const data = await response.json();
+        const { data } = await api.get('/users');
         const objUser = data.data[0];
 
-        setUserToken(params.access_token);
         setUser({
           id: Number(objUser.id),
           email: objUser.email,
           name: objUser.display_name,
           photo: objUser.profile_image_url,
         });
-
-
         // TODO - salvar no async storage
       }   
     } catch (error){
@@ -71,6 +67,21 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
     setUser({} as User);
     setUserToken('');
   }
+
+  useEffect(() => {
+    api.interceptors.request.use(
+      (config) => {
+        config.headers = {
+          'Client-ID': process.env.CLIENT_ID,
+          'Authorization': `Bearer ${userToken}`
+        }
+        return config;
+      }, 
+      (error) => {
+        return Promise.reject(error)
+      }
+    )
+  },[]);
   
   return(
     <AuthContext.Provider value={{user, userToken, signIn, signOut}}>

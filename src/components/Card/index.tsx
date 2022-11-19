@@ -11,26 +11,52 @@ import {
   StreamerName,
 } from "./styles";
 
-export const Card = () => {
+interface CardProps {
+  url: string;
+  streamerViewers: number;
+  streamerName: string;
+  streamerTitle: string;
+  streamerPhotoUrl: string;
+}
+
+const mockPhoto = 'https://doodleipsum.com/700/hand-drawn?bg=D98D63&i=1a34c9aa724687844241454eebdfecdc';
+
+export const Card = ({
+  url, 
+  streamerName, 
+  streamerTitle, 
+  streamerViewers,
+  streamerPhotoUrl
+}: CardProps) => {
+  const cardUrl = url ? url.replace('{width}x{height}', '450x400') : mockPhoto;
+
+  //console.log(streamerPhotoUrl);
+
   return(
     <Container>
       <ImageContainer>
         <ImageBg
+          resizeMode='cover'
           source={{
-            uri: 'https://doodleipsum.com/700/hand-drawn?bg=FF3C3C&i=38669f43d56c05c7a0eacf970d68e8fd'
+            uri: cardUrl
           }}
         >
-          <LegendCard>29,4 mil seguidores</LegendCard>
+          <LegendCard>{streamerViewers} seguidores</LegendCard>
         </ImageBg>
       </ImageContainer>
 
       <StreamerContainer>
-        <StreamerPhoto />
+        <StreamerPhoto
+          resizeMode="cover"
+          source={{
+            uri: streamerPhotoUrl
+          }}
+        />
         <StreamerInfo>
           <StreamerTitle numberOfLines={1}>
-            Um passarinho me contou ddddddxxxxxxxdccccc
+            {streamerTitle}
           </StreamerTitle>
-          <StreamerName>Alanzoka</StreamerName>
+          <StreamerName>{streamerName}</StreamerName>
         </StreamerInfo>
       </StreamerContainer>
     </Container>
