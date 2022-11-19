@@ -7,11 +7,11 @@ interface User {
   email: string;
   name: string;
   photo?: string;
-  accessToken: string;
 }
 
 interface AuthContextProps {
   user: User;
+  userToken: string;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -31,6 +31,7 @@ export const AuthContext = createContext<AuthContextProps>({} as AuthContextProp
 
 export const AuthProvider = ({children}: AuthProviderProps) => {
   const [user, setUser] = useState<User>({} as User);
+  const [userToken, setUserToken] = useState('');
 
   const signIn = async () => {
     try {
@@ -49,13 +50,14 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
         const data = await response.json();
         const objUser = data.data[0];
 
+        setUserToken(params.access_token);
         setUser({
           id: Number(objUser.id),
           email: objUser.email,
           name: objUser.display_name,
           photo: objUser.profile_image_url,
-          accessToken: params.access_token
         });
+
 
         // TODO - salvar no async storage
       }   
@@ -67,10 +69,11 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
 
   const signOut = async () => {
     setUser({} as User);
+    setUserToken('');
   }
   
   return(
-    <AuthContext.Provider value={{user, signIn, signOut}}>
+    <AuthContext.Provider value={{user, userToken, signIn, signOut}}>
       {children}
     </AuthContext.Provider>
   )

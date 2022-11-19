@@ -5,13 +5,23 @@ import {
   BannerImage
 } from './styles';
 
-export const Banner = () => {
+
+export interface BannerProps {
+  id: string;
+  name: string;
+  url: string;
+}
+
+export const Banner = ({id, name, url}: BannerProps) => {
+
+  const bannerUrl = url.replaceAll(/{width}|{height}/g, '300');
+
   return(
     <Container>
       <BannerImage
        resizeMode='cover'
        source={{
-        uri: 'https://doodleipsum.com/700/hand-drawn?bg=D98D63&i=1a34c9aa724687844241454eebdfecdc'
+        uri: bannerUrl
        }}
       />
     </Container>
