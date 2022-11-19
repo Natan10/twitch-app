@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useAuth } from '../../hooks/auth';
+
 import {
   Container,
   ImageContainer,
@@ -18,6 +20,8 @@ import {
 import ImageLogo from '../../assets/logo.svg';
 
 export const SignIn: React.FC = () => {
+  const {signIn} = useAuth();
+
   return(
     <Container>
       <ImageContainer>
@@ -37,7 +41,7 @@ export const SignIn: React.FC = () => {
           o mundo da Twitch
         </BodyTitle>
 
-        <LoginButton>
+        <LoginButton onPress={signIn}>
           <IconContainer>
             <Icon name="twitch" size={24} />
           </IconContainer>

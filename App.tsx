@@ -3,11 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import { ThemeProvider } from 'styled-components';
 import { useFonts } from 'expo-font';
 
-
 import theme from './src/global/theme';
 
-// import { SignIn } from './src/screens/SignIn';
-import { Dashboard } from './src/screens/Dashboard';
+import { AuthProvider } from './src/hooks/auth';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [fontsLoading] = useFonts({
@@ -23,8 +22,9 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar style='light' />
-      {/* <SignIn /> */}
-      <Dashboard />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }
