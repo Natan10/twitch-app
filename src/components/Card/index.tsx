@@ -30,8 +30,6 @@ export const Card = ({
 }: CardProps) => {
   const cardUrl = url ? url.replace('{width}x{height}', '450x400') : mockPhoto;
 
-  //console.log(streamerPhotoUrl);
-
   return(
     <Container>
       <ImageContainer>

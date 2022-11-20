@@ -35,17 +35,19 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   const [user, setUser] = useState<User>({} as User);
   const [userToken, setUserToken] = useState('');
 
+  const { CLIENT_ID } = process.env
+  const { REDIRECT_URL } = process.env
+
   const signIn = async () => {
     try {
-      const clientId = process.env.CLIENT_ID;
-      const redirectUrl = process.env.REDIRECT_URL;
       const scopes = encodeURI('user:read:email user:read:follows')
-      const authUrl = `https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scopes}`;
+      const authUrl = `https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&scope=${scopes}`;
       const {type, params} = await AuthSession.startAsync({authUrl}) as AuthorizationResponse;
       
-      setUserToken(params.access_token);
-
       if(type === 'success') {
+        setUserToken(params.access_token);
+        api.defaults.headers.authorization = `Bearer ${params.access_token}`;
+        
         const { data } = await api.get('/users');
         const objUser = data.data[0];
 
@@ -55,7 +57,6 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
           name: objUser.display_name,
           photo: objUser.profile_image_url,
         });
-        // TODO - salvar no async storage
       }   
     } catch (error){
       console.log(error);  
@@ -64,23 +65,21 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   }
 
   const signOut = async () => {
-    setUser({} as User);
-    setUserToken('');
+    try {
+      await AuthSession.revokeAsync({token: userToken, clientId: CLIENT_ID}, {
+        revocationEndpoint: 'https://id.twitch.tv/oauth2/revoke'
+      })
+      setUser({} as User);
+      setUserToken('');
+      delete api.defaults.headers.common['Authorization'];
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Erro ao realizar signOut');
+    }
   }
 
   useEffect(() => {
-    api.interceptors.request.use(
-      (config) => {
-        config.headers = {
-          'Client-ID': process.env.CLIENT_ID,
-          'Authorization': `Bearer ${userToken}`
-        }
-        return config;
-      }, 
-      (error) => {
-        return Promise.reject(error)
-      }
-    )
+    api.defaults.headers['Client-Id'] = CLIENT_ID;
   },[]);
   
   return(
