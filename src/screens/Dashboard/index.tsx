@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import { ActivityIndicator, Alert, Modal, View } from 'react-native';
 
 import { useAuth } from '../../hooks/auth';
 import { api } from '../../services/api';
@@ -24,7 +24,7 @@ import {
 const uri = 'https://doodleipsum.com/700/avatar?i=de119c2260fd4f6406f2450773e96262';
        
 export const Dashboard = () => {
-  const { user, signOut } = useAuth();
+  const { user, signOutLoad, signOut } = useAuth();
 
   const [banners, setBanners] = useState<BannerDto[]>([]);
   const [cards, setCards] = useState<CardStreamerInfoDto[]>([]);
@@ -106,6 +106,24 @@ export const Dashboard = () => {
         <Title>Mais assistidos no momento</Title>
         {isLoadBanners ? <Load size='large' /> : <Banners data={banners} />}   
       </Body>
+
+      <Modal
+        animationType='fade'
+        visible={signOutLoad}
+        statusBarTranslucent
+        transparent
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(14,14,16,0.6)',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }} 
+        >
+          <ActivityIndicator size="large" />
+        </View>
+      </Modal>
     </Container>
   )
 }

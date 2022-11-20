@@ -72,6 +72,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   }
 
   const signOut = async () => {
+    setIsLoadSignout(true);
     try {
       await AuthSession.revokeAsync({token: userToken, clientId: CLIENT_ID}, {
         revocationEndpoint: 'https://id.twitch.tv/oauth2/revoke'
@@ -82,6 +83,8 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
     } catch (error) {
       console.log(error);
       Alert.alert('Erro ao realizar signOut');
+    } finally {
+      setIsLoadSignout(false);
     }
   }
 
@@ -94,7 +97,7 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
       user, 
       userToken, 
       signInLoad: isLoadSignin,
-      signOutLoad: false,
+      signOutLoad: isLoadSignout,
       signIn, 
       signOut
     }}>
