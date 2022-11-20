@@ -7,5 +7,5 @@ import { useAuth } from '../hooks/auth';
 export const Routes = () => {
   const {user} = useAuth();
 
-  return user.id ? <Dashboard /> : <SignIn />
+  return user.id ? <Dashboard key="dashboard" /> : <SignIn key="signIn" />
 }

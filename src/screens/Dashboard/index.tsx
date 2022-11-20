@@ -78,7 +78,11 @@ export const Dashboard = () => {
   },[]);
 
   return(
-    <Container>
+    <Container
+      from={{ opacity: 0, scale: 0.9 }}
+      animate={{opacity: 1, scale: 1}}
+      exit={{opacity: 0, scale: 0.9}}
+    > 
       <Header>
         <UserContainer>
           <UserPhoto
@@ -100,8 +104,7 @@ export const Dashboard = () => {
         <Title>Canais que você segue</Title>
         {isLoadCards ? <Load size='large' /> : <Cards data={cards} />}
         <Title>Mais assistidos no momento</Title>
-        {isLoadBanners ? <Load size='large' /> : <Banners data={banners} />}
-            
+        {isLoadBanners ? <Load size='large' /> : <Banners data={banners} />}   
       </Body>
     </Container>
   )

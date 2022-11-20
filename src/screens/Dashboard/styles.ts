@@ -1,7 +1,8 @@
 import styled, {css} from "styled-components/native";
 import { FontAwesome } from '@expo/vector-icons';
+import { MotiView } from "moti";
 
-export const Container = styled.View`
+export const Container = styled(MotiView)`
   flex: 1;
 `;
 

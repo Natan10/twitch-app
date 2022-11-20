@@ -14,6 +14,8 @@ interface User {
 interface AuthContextProps {
   user: User;
   userToken: string;
+  signInLoad: boolean;
+  signOutLoad: boolean;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -34,11 +36,14 @@ export const AuthContext = createContext<AuthContextProps>({} as AuthContextProp
 export const AuthProvider = ({children}: AuthProviderProps) => {
   const [user, setUser] = useState<User>({} as User);
   const [userToken, setUserToken] = useState('');
+  const [isLoadSignin, setIsLoadSignin] = useState(false);
+  const [isLoadSignout, setIsLoadSignout] = useState(false);
 
   const { CLIENT_ID } = process.env
   const { REDIRECT_URL } = process.env
 
   const signIn = async () => {
+    setIsLoadSignin(true);
     try {
       const scopes = encodeURI('user:read:email user:read:follows')
       const authUrl = `https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&scope=${scopes}`;
@@ -61,6 +66,8 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
     } catch (error){
       console.log(error);  
       Alert.alert('Erro ao conectar a conta Twitch')
+    } finally {
+      setIsLoadSignin(false);
     }
   }
 
@@ -83,7 +90,14 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   },[]);
   
   return(
-    <AuthContext.Provider value={{user, userToken, signIn, signOut}}>
+    <AuthContext.Provider value={{
+      user, 
+      userToken, 
+      signInLoad: isLoadSignin,
+      signOutLoad: false,
+      signIn, 
+      signOut
+    }}>
       {children}
     </AuthContext.Provider>
   )
