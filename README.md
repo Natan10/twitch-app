@@ -1,7 +1,7 @@
 <h1>Twitch App <img src="layout/logo-tw.svg" width="30" height="30"/></h1>
 
 <h4>
-This is an app to list your favorite Twitch streamers.
+This is an mobile app to list your favorite Twitch streamers.
 </h4>
 
 </br>
@@ -25,7 +25,7 @@ This is an app to list your favorite Twitch streamers.
 
 </br>
 
-## Used Tecnologies 🚀
+## Tecnologies 🚀
 
 This app uses social login with Twitch integration API and expo authentication session
 
