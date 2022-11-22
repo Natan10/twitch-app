@@ -52,6 +52,7 @@ export const Cards = ({ data }: CardsProps) => {
         return <Card 
           url={item.thumbnail_url}
           streamerName={item.user_name}
+          streamerLogin={item.user_login}
           streamerTitle={item.title}
           streamerViewers={item.viewer_count}
           streamerPhotoUrl={item.streamer_profile_url}

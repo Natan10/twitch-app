@@ -1,4 +1,5 @@
 import React from "react";
+import { Linking } from "react-native";
 import { 
   Container, 
   ImageContainer,
@@ -15,6 +16,7 @@ interface CardProps {
   url: string;
   streamerViewers: number;
   streamerName: string;
+  streamerLogin: string;
   streamerTitle: string;
   streamerPhotoUrl: string;
 }
@@ -24,6 +26,7 @@ const mockPhoto = 'https://doodleipsum.com/700/hand-drawn?bg=D98D63&i=1a34c9aa72
 export const Card = ({
   url, 
   streamerName, 
+  streamerLogin,
   streamerTitle, 
   streamerViewers,
   streamerPhotoUrl
@@ -32,7 +35,9 @@ export const Card = ({
 
   return(
     <Container>
-      <ImageContainer>
+      <ImageContainer
+        onPress={() => Linking.openURL(`https://www.twitch.tv/${streamerLogin}`)}
+      >
         <ImageBg
           resizeMode='cover'
           source={{

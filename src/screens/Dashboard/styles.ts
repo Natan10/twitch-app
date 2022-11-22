@@ -80,5 +80,15 @@ export const Title = styled.Text`
     font-size: 20px;
     font-family: ${theme.fonts.bold};
     color: ${theme.colors.white};
+
+    margin-bottom: 24px;
   `}
 `;
+
+export const CardsWrapper = styled.View`
+  margin-bottom: 48px;
+`;
+
+export const BannersWrapper = styled.View``;
+
+

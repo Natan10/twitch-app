@@ -18,6 +18,8 @@ import {
   SignUpButton,
   Icon,
   Body,
+  CardsWrapper,
+  BannersWrapper,
   Title
 } from './styles';
 
@@ -101,10 +103,15 @@ export const Dashboard = () => {
       </Header>
 
       <Body>
-        <Title>Canais que você segue</Title>
-        {isLoadCards ? <Load size='large' /> : <Cards data={cards} />}
-        <Title>Mais assistidos no momento</Title>
-        {isLoadBanners ? <Load size='large' /> : <Banners data={banners} />}   
+        <CardsWrapper>
+          <Title>Canais que você segue</Title>
+          {isLoadCards ? <Load size='large' /> : <Cards data={cards} />}
+        </CardsWrapper>
+
+        <BannersWrapper>
+          <Title>Mais assistidos no momento</Title>
+          {isLoadBanners ? <Load size='large' /> : <Banners data={banners} />}   
+        </BannersWrapper>
       </Body>
 
       <Modal
